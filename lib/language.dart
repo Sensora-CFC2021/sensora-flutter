@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:sensora_tes2/change_languages.dart';
 
 class LanguageScreen extends StatelessWidget {
   @override
@@ -40,39 +40,34 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  final languages = [
+    Languages(title: "English", flag: "🇬🇧"),
+    Languages(title: "Mongolian", flag: "🇲🇳")
+  ];
+
+  void _changeLanguage(Languages language) {
+    print(language.title);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [builSingleCheckBox(), builSingleCheckBox1()],
+      children: [...languages.map(builSingleCheckBox)],
     );
   }
 
-  Widget builSingleCheckBox() => CheckboxListTile(
-        title: const Text('English'),
-        value: timeDilation != 1.0,
-        onChanged: (bool? value) {
+  Widget builSingleCheckBox(Languages language) => CheckboxListTile(
+        title: Text(language.title),
+        value: language.value,
+        onChanged: (value) {
+          _changeLanguage(language);
           setState(() {
-            timeDilation = value! ? 10.0 : 1.0;
+            language.value = value!;
           });
         },
-        secondary: SvgPicture.asset(
-          "assets/icons/uk.svg",
-          height: 26,
-          width: 26,
-        ),
-      );
-  Widget builSingleCheckBox1() => CheckboxListTile(
-        title: const Text('Mongolian'),
-        value: timeDilation != 1.0,
-        onChanged: (bool? value) {
-          setState(() {
-            timeDilation = value! ? 10.0 : 1.0;
-          });
-        },
-        secondary: SvgPicture.asset(
-          "assets/icons/mongolia.svg",
-          height: 26,
-          width: 26,
+        secondary: Text(
+          language.flag,
+          style: TextStyle(fontSize: 26),
         ),
       );
 }
