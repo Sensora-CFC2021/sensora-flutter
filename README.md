@@ -1,4 +1,4 @@
-# sensora_tes2
+# sensora
 
 A new Flutter project.
 

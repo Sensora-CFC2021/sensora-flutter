@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sensora_test2/language_screen.dart';
 import 'bottom_nav_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sensora_test2/l10n/l10n.dart';
+import 'my_app_bar.dart';
 
-class HomeScreen extends StatelessWidget {
+class SurveyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,69 +14,115 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
-    final flag = L10n.getFlag(locale.languageCode);
-    return AppBar(
-      title: TextField(
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.enter_message,
-        ),
-      ),
-      centerTitle: true,
-      elevation: 0,
-      toolbarHeight: 100,
-      leading: IconButton(
-          icon: Text(
-            flag,
-            style: TextStyle(fontSize: 28),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LanguageScreen()),
-            );
-          }),
-      actions: <Widget>[
-        IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              "assets/icons/search_icon.svg",
-              height: 24,
-              width: 24,
-            )),
-        IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              "assets/icons/tune_icon.svg",
-              height: 24,
-              width: 24,
-            ))
-      ],
-    );
-  }
+class Body extends StatefulWidget {
+  const Body({Key? key}) : super(key: key);
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(100);
+  State<Body> createState() => _MyStatefulWidgetState();
 }
 
-class Body extends StatelessWidget {
+/// This is the private State class that goes with MyStatefulWidget.
+class _MyStatefulWidgetState extends State<Body> {
+  bool _isSelected = false;
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(
-          width: double.infinity,
-          child: Container(
-            margin: EdgeInsets.only(top: 10.0),
-            child: Text(
-              AppLocalizations.of(context)!.select_plants,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24),
-            ),
+        new Container(
+          margin: EdgeInsets.all(15),
+          child: Text(
+            AppLocalizations.of(context)!.select_plants,
+            style: TextStyle(fontSize: 24),
           ),
         ),
+        new Expanded(
+          child: GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            children: <Widget>[
+              CheckboxListTile(
+                title: IconButton(
+                  icon: SvgPicture.asset("assets/icons/potato.svg"),
+                  onPressed: () {},
+                ),
+                subtitle: Text("Төмс"),
+                value: _isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    _isSelected = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: IconButton(
+                  icon: SvgPicture.asset("assets/icons/potato.svg"),
+                  onPressed: () {},
+                ),
+                subtitle: Text("Лууван"),
+                value: _isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    _isSelected = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: IconButton(
+                  icon: SvgPicture.asset("assets/icons/potato.svg"),
+                  onPressed: () {},
+                ),
+                subtitle: Text("Манжин"),
+                value: _isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    _isSelected = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: IconButton(
+                  icon: SvgPicture.asset("assets/icons/potato.svg"),
+                  onPressed: () {},
+                ),
+                subtitle: Text("Сонгино"),
+                value: _isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    _isSelected = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: IconButton(
+                  icon: SvgPicture.asset("assets/icons/potato.svg"),
+                  onPressed: () {},
+                ),
+                subtitle: Text("Сармис"),
+                value: _isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    _isSelected = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: IconButton(
+                  icon: SvgPicture.asset("assets/icons/potato.svg"),
+                  onPressed: () {},
+                ),
+                subtitle: Text("Манжин"),
+                value: _isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    _isSelected = value!;
+                  });
+                },
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
