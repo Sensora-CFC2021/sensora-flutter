@@ -46,8 +46,7 @@ class _MyStatefulWidgetState extends State<HomeScreenBody>
     super.initState();
   }
 
-  String dropdownValue = 'Soil Moisture';
-  @override
+    @override
   Widget build(BuildContext context) {
     final animationPercentage = animationController.value * 0.34;
     final textPercentage = animationController.value * 34;
@@ -71,8 +70,10 @@ class _MyStatefulWidgetState extends State<HomeScreenBody>
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade300),
+                        color: Colors.grey.shade200),
                   ),
+                  borderColor: Colors.lightBlue.shade400,
+                  borderWidth: 2.0,
                   direction: Axis.vertical,
                   backgroundColor: Colors.white,
                 ),
