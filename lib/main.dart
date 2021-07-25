@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'language_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sensora_test2/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         create: (context) => LocaleProvider(),
         builder: (context, child) {
           final provider = Provider.of<LocaleProvider>(context);
+
           return MaterialApp(
             locale: provider.locale,
             supportedLocales: L10n.all,
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Sensora',
             theme: ThemeData(primaryColor: Colors.white),
-            home: HomeScreen(),
+            home: LanguageScreen(),
           );
         },
       );
