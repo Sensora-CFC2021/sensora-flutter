@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:sensora_test2/l10n/l10n.dart';
 import 'package:sensora_test2/provider/locale_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'bluetooth_conn.dart';
 
 class LanguageScreen extends StatelessWidget {
   @override
@@ -22,16 +21,11 @@ class LanguageScreen extends StatelessWidget {
               height: 2.0,
             ),
             preferredSize: Size.fromHeight(4.0)),
-        leading: IconButton(
-            icon: SvgPicture.asset(
-              "assets/icons/back_button.svg",
-              height: 26,
-              width: 26,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
       ),
+      bottomNavigationBar: BottomAppBar(
+          child: Row(
+        children: <Widget>[],
+      )),
     );
   }
 }
@@ -82,26 +76,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               "🇲🇳",
               style: TextStyle(fontSize: 26),
             )),
+        Container(
+          margin: EdgeInsets.only(top: 310),
+          child: Align(
+            alignment: Alignment(0.8, 0.6),
+            child: ElevatedButton(
+              child: Text("Next"),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BluetoothConn()));
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
-
-  /*
-  Widget builSingleCheckBox(Languages language) => RadioListTile(
-        groupValue: language.value,
-        title: Text(language.title),
-        value: language.value,
-        onChanged: (value) {
-          final provider = Provider.of<LocaleProvider>(context, listen: false);
-          final locale = provider.locale ?? Locale('en');
-          setState(() {
-            provider.setLocale(locale);
-          });
-        },
-        secondary: Text(
-          language.flag,
-          style: TextStyle(fontSize: 26),
-        ),
-      );
-      */
 }
