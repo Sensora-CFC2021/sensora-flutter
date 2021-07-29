@@ -3,5 +3,7 @@
     "english":"Англи хэл",
     "mongolian":"Монгол хэл",
     "select_language":"Хэлээ сонгоно уу?",
-    "enter_message":"Хайх"
+    "enter_message":"Хайх",
+    "soil_moisture":"Хөрсний чийгшэл"
+    
 }

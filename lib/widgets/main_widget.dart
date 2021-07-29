@@ -38,7 +38,7 @@ class MainWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: Text(
-                  "${temperature.toString()} C",
+                  "${temperature.toString()} °C",
                   style: TextStyle(
                       color: Colors.blue,
                       fontSize: 40.0,
@@ -46,7 +46,7 @@ class MainWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "Танд мэдрэгдэх : ${temperatureFeelsLike.toString()} C",
+                "Танд мэдрэгдэх : ${temperatureFeelsLike.toString()} °C",
                 style: TextStyle(
                   color: Color(0xff9e9e9e),
                   fontSize: 14.0,
@@ -64,7 +64,7 @@ class MainWidget extends StatelessWidget {
                 WeatherTile(
                     icon: Icons.thermostat_outlined,
                     title: "Цаг агаар",
-                    subtitle: "${temperature.toString()} C"),
+                    subtitle: "${temperature.toString()} °C"),
                 WeatherTile(
                     icon: Icons.filter_drama_outlined,
                     title: "Гадаа",

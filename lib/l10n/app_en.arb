@@ -3,5 +3,6 @@
     "english":"English",
     "mongolian":"Mongolian",
     "select_language":"Choose your language",
-    "enter_message":"Enter a text"
+    "enter_message":"Enter a text",
+    "soil_moisture":"Soil Moisture"
 }
