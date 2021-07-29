@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'weather_tile.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MainWidget extends StatelessWidget {
   //final String location;
