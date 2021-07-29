@@ -21,6 +21,9 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  http: ^0.13.3
+  geolocator: ^7.3.1
+  geocoding: ^2.0.0
   percent_indicator: ^3.0.1
   flutter_blue: ^0.8.0
   animator: ^3.1.0

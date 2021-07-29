@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sensora_test2/weather_screen.dart';
 import 'home_screen.dart';
 import '../constant.dart';
 import 'bluetooth_conn.dart';
@@ -43,7 +44,12 @@ class MyBottomNavBar extends StatelessWidget {
           ),
           IconButton(
             icon: SvgPicture.asset("assets/icons/weather_icon.svg"),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WeatherApp()),
+              );
+            },
           ),
         ],
       ),
