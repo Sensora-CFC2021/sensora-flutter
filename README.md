@@ -1,6 +1,6 @@
 # Sensora
 
-Economic and social progress over the past century has been accompanied by drastic environmental degradation that is endangering the very systems on which our future development depends. Regarding sustainable consumption and production patterns, we’ve developed a prototype talking sensor to support smallholder farmers to become responsible producers. The sensor sends environmental telemetry data (temperature, humidity, and spilt moisture) to improve their watering system
+Economic and social progress over the past century has been accompanied by environmental degradation that is endangering the very systems on which our future development depends. Regarding sustainable consumption and production patterns, we have developed a prototype talking sensor to support smallholder farmers to become responsible producers. The sensor sends environmental telemetry data (temperature, humidity, and soil moisture) to improve their watering system
 
 ## Long description
 
@@ -13,14 +13,11 @@ Economic and social progress over the past century has been accompanied by drast
   - [Contents](#contents)
   - [Demo video](#demo-video)
   - [The architecture](#the-architecture)
-  - [Long description](#long-description)
   - [Sensora project roadmap](#sensora-project-roadmap)
-  - [Getting started](#getting-started)
   - [Built with](#built-with)
   - [Contributing](#contributing)
   - [Authors](#authors)
   - [License](#license)
-  - [Acknowledgments](#acknowledgments)
 
 ## Demo video
 
@@ -61,6 +58,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 * Yesukhei Tumurbaatar
 * Tsogtkhangai Munkhbayar
 * Ulziiburen Dorjpurev
+* Byambajargal Naranbat
 
 ## License
 
