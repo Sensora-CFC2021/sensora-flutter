@@ -75,7 +75,7 @@ class MainWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              for (var i = 1; i < 7; i++) forecastElement(i),
+              for (var i = 1; i < 14; i++) forecastElement(i),
             ],
           ),
         ),
