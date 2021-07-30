@@ -1,10 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import 'weather_tile.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:geolocator/geolocator.dart';
 
 class MainWidget extends StatelessWidget {
   //final String location;
+  final String validTimeLocal;
   final int temperature;
   final int temperatureFeelsLike;
   final String wxPhraseLong;
@@ -12,6 +15,7 @@ class MainWidget extends StatelessWidget {
   final int windSpeed;
 
   MainWidget({
+    required this.validTimeLocal,
     required this.temperature,
     required this.temperatureFeelsLike,
     required this.wxPhraseLong,
@@ -21,10 +25,13 @@ class MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateTime = DateTime.now();
+    final format = DateFormat('yyyy:MM:dd HH:mm');
+    final formatedString = format.format(dateTime);
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height / 2.5,
+          height: MediaQuery.of(context).size.height / 3.5,
           width: MediaQuery.of(context).size.width,
           color: Color(0xfff1f1f1),
           child: Column(
@@ -52,7 +59,23 @@ class MainWidget extends StatelessWidget {
                   fontSize: 14.0,
                   fontWeight: FontWeight.w600,
                 ),
+              ),
+              Text(
+                "${formatedString.toString()}",
+                style: TextStyle(
+                  color: Color(0xff9e9e9e),
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
+                ),
               )
+            ],
+          ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              for (var i = 1; i < 7; i++) forecastElement(i),
             ],
           ),
         ),
@@ -84,4 +107,37 @@ class MainWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+class Temps {
+  var temperature = [];
+}
+
+Widget forecastElement(daysFromNow) {
+  var now = new DateTime.now();
+  var oneHourFromNow = now.add(new Duration(hours: daysFromNow));
+  return Padding(
+    padding: const EdgeInsets.only(left: 12.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "25 C",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+            ),
+            Text(
+              new DateFormat.H().format(oneHourFromNow) + ":00",
+              style: TextStyle(color: Colors.blue, fontSize: 15),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
