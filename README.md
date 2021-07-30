@@ -1,6 +1,8 @@
 # Sensora
 
-Economic and social progress over the past century has been accompanied by environmental degradation that is endangering the very systems on which our future development depends. Regarding sustainable consumption and production patterns, we have developed a prototype talking sensor to support smallholder farmers to become responsible producers. The sensor sends environmental telemetry data (temperature, humidity, and soil moisture) to improve their watering system
+Many farmers struggle with clean water depletion due to deficient water management and limited access to information. Such extensive use of water continues to have destructive impacts on the environment and is endangering the very systems on which our future depends. 
+
+Regarding sustainable consumption and production patterns, we present “Sensora”, which can speak to the farmers directly to help prevent excess water usage, preserving the most important natural resource, and promoting a sustainable lifestyle. Sensora has sensors, a portable station, and a mobile app. The sensors are set in the soil of the field and transmit the telemetry (temperature, humidity, and soil moisture) data to the station.
 
 ## Long description
 
@@ -10,7 +12,6 @@ Economic and social progress over the past century has been accompanied by envir
 
 - [Sensora](#sensora)
   - [Long description](#long-description)
-  - [Contents](#contents)
   - [Demo video](#demo-video)
   - [The architecture](#the-architecture)
   - [Sensora project roadmap](#sensora-project-roadmap)
@@ -34,6 +35,7 @@ Currently, our project:
 
 - Shows environmental telemetry data of the field/Soil
 - Shows weather data
+- Text-to-speech function
 
 See below for our proposed schedule on the following steps after Call For Code 2021 Submission
 
