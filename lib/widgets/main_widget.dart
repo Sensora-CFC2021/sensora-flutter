@@ -13,6 +13,7 @@ class MainWidget extends StatelessWidget {
   final String wxPhraseLong;
   final int relativeHumidity;
   final int windSpeed;
+  var temps = [];
 
   MainWidget({
     required this.validTimeLocal,
@@ -21,6 +22,7 @@ class MainWidget extends StatelessWidget {
     required this.wxPhraseLong,
     required this.relativeHumidity,
     required this.windSpeed,
+    required this.temps,
   });
 
   @override
@@ -28,6 +30,7 @@ class MainWidget extends StatelessWidget {
     final dateTime = DateTime.now();
     final format = DateFormat('yyyy:MM:dd HH:mm');
     final formatedString = format.format(dateTime);
+    final double metrSec = windSpeed / 3.6;
     return Column(
       children: [
         Container(
@@ -45,7 +48,7 @@ class MainWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: Text(
-                  "${temperature.toString()} C",
+                  "${temperature.toString()}° C",
                   style: TextStyle(
                       color: Colors.blue,
                       fontSize: 40.0,
@@ -53,7 +56,7 @@ class MainWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "Танд мэдрэгдэх : ${temperatureFeelsLike.toString()} C",
+                "Танд мэдрэгдэх : ${temperatureFeelsLike.toString()}° C",
                 style: TextStyle(
                   color: Color(0xff9e9e9e),
                   fontSize: 14.0,
@@ -75,7 +78,7 @@ class MainWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              for (var i = 1; i < 14; i++) forecastElement(i),
+              for (var i = 1; i < 14; i++) forecastElement(i, temps[i]),
             ],
           ),
         ),
@@ -87,7 +90,7 @@ class MainWidget extends StatelessWidget {
                 WeatherTile(
                     icon: Icons.thermostat_outlined,
                     title: "Цаг агаар",
-                    subtitle: "${temperature.toString()} C"),
+                    subtitle: "${temperature.toString()}° C"),
                 WeatherTile(
                     icon: Icons.filter_drama_outlined,
                     title: "Гадаа",
@@ -99,7 +102,7 @@ class MainWidget extends StatelessWidget {
                 WeatherTile(
                     icon: Icons.waves_outlined,
                     title: "Салхины хурд",
-                    subtitle: "${windSpeed.toString()} км/ц"),
+                    subtitle: "${metrSec.toStringAsFixed(1)} м/с"),
               ],
             ),
           ),
@@ -113,7 +116,7 @@ class Temps {
   var temperature = [];
 }
 
-Widget forecastElement(daysFromNow) {
+Widget forecastElement(daysFromNow, temp) {
   var now = new DateTime.now();
   var oneHourFromNow = now.add(new Duration(hours: daysFromNow));
   return Padding(
@@ -128,7 +131,7 @@ Widget forecastElement(daysFromNow) {
         child: Column(
           children: <Widget>[
             Text(
-              "25 C",
+              temp.toString() + "° C",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
             ),
             Text(

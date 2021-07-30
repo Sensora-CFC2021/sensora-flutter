@@ -26,6 +26,15 @@ Future<WeatherInfo> fetchWeather() async {
   }
 }
 
+class WeatherData {
+  var temperature = [];
+  var temperatureFeelsLike = [];
+  var wxPhraseLong = [];
+  var relativeHumidity = [];
+  var windSpeed = [];
+  var validTimeLocal = [];
+}
+
 class WeatherInfo {
   var temperature = [];
   var temperatureFeelsLike = [];
@@ -86,6 +95,7 @@ class _WeatherApp extends State<WeatherApp> {
                   wxPhraseLong: snapshot.data!.wxPhraseLong[0],
                   relativeHumidity: snapshot.data!.relativeHumidity[0],
                   windSpeed: snapshot.data!.windSpeed[0],
+                  temps: snapshot.data!.temperature,
                 );
               } else if (snapshot.hasError) {
                 return Center(
