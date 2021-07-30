@@ -5,6 +5,7 @@ import 'package:sensora_test2/bottom_nav_bar.dart';
 import 'package:sensora_test2/my_app_bar.dart';
 
 class BluetoothConn extends StatefulWidget {
+  
   BluetoothConn({Key? key}) : super(key: key);
 
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();

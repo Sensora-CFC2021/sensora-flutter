@@ -1,24 +1,13 @@
 # sensora
 
-A new Flutter project.
+Call for Code 2021: Project Sensora
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Economic and social progress over the past century has been accompanied by drastic environmental degradation which is endangering the very systems on which our future development depends. To address this challenge, we’ve developed a prototype sensor that sends environmental telemetry data (temperature, humidity, and soil moisture) to support farmers and the overall watering system of contemporary agriculture. 
 
 Change branch to github
 ```
 git remote add origin https://github.com/Sensora-CFC2021/sensora-flutter.git
 git branch -M main
 git fetch
- git pull --set-upstream origin mai
+git pull --set-upstream origin main
 ```
