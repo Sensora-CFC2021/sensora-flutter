@@ -26,15 +26,6 @@ Future<WeatherInfo> fetchWeather() async {
   }
 }
 
-class WeatherData {
-  var temperature = [];
-  var temperatureFeelsLike = [];
-  var wxPhraseLong = [];
-  var relativeHumidity = [];
-  var windSpeed = [];
-  var validTimeLocal = [];
-}
-
 class WeatherInfo {
   var temperature = [];
   var temperatureFeelsLike = [];
@@ -42,6 +33,7 @@ class WeatherInfo {
   var relativeHumidity = [];
   var windSpeed = [];
   var validTimeLocal = [];
+  var iconCode = [];
 
   WeatherInfo({
     required this.temperature,
@@ -50,6 +42,7 @@ class WeatherInfo {
     required this.relativeHumidity,
     required this.windSpeed,
     required this.validTimeLocal,
+    required this.iconCode,
   });
 
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
@@ -60,6 +53,7 @@ class WeatherInfo {
       relativeHumidity: json['relativeHumidity'],
       windSpeed: json['windSpeed'],
       validTimeLocal: json['validTimeLocal'],
+      iconCode: json['iconCode'],
     );
   }
 }
@@ -96,6 +90,8 @@ class _WeatherApp extends State<WeatherApp> {
                   relativeHumidity: snapshot.data!.relativeHumidity[0],
                   windSpeed: snapshot.data!.windSpeed[0],
                   temps: snapshot.data!.temperature,
+                  iconCode: snapshot.data!.iconCode[0],
+                  weather_icons: snapshot.data!.iconCode,
                 );
               } else if (snapshot.hasError) {
                 return Center(

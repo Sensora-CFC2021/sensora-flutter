@@ -1,7 +1,11 @@
 import 'dart:ui';
+import 'dart:convert';
+import 'dart:developer' as developer;
 
+import 'package:animator/animator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'weather_tile.dart';
 
@@ -13,7 +17,9 @@ class MainWidget extends StatelessWidget {
   final String wxPhraseLong;
   final int relativeHumidity;
   final int windSpeed;
+  final int iconCode;
   var temps = [];
+  var weather_icons = [];
 
   MainWidget({
     required this.validTimeLocal,
@@ -23,10 +29,14 @@ class MainWidget extends StatelessWidget {
     required this.relativeHumidity,
     required this.windSpeed,
     required this.temps,
+    required this.iconCode,
+    required this.weather_icons,
   });
 
   @override
   Widget build(BuildContext context) {
+    String asset =
+        'assets/icons/weather_icons/icon' + iconCode.toString() + '.png';
     final dateTime = DateTime.now();
     final format = DateFormat('yyyy:MM:dd HH:mm');
     final formatedString = format.format(dateTime);
@@ -41,27 +51,39 @@ class MainWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                //"${location.toString()}",
                 "Улаанбаатар",
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Text(
-                  "${temperature.toString()}° C",
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 40.0,
-                      fontWeight: FontWeight.w900),
-                ),
-              ),
-              Text(
-                "Танд мэдрэгдэх : ${temperatureFeelsLike.toString()}° C",
-                style: TextStyle(
-                  color: Color(0xff9e9e9e),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          child: TextButton(
+                            onPressed: () {
+                              _popupScreen(context, temps, weather_icons);
+                            },
+                            child: (Text(
+                              "${temperature.toString()}° C",
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 40.0,
+                                  fontWeight: FontWeight.w900),
+                            )),
+                          ),
+                        ),
+                        Container(
+                          padding: new EdgeInsets.only(left: 10),
+                          height: 50,
+                          child: Image.asset(asset),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               Text(
                 "${formatedString.toString()}",
@@ -78,7 +100,8 @@ class MainWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              for (var i = 1; i < 14; i++) forecastElement(i, temps[i]),
+              for (var i = 1; i < 14; i++)
+                forecastElement(i, temps[i], weather_icons[i]),
             ],
           ),
         ),
@@ -89,8 +112,8 @@ class MainWidget extends StatelessWidget {
               children: [
                 WeatherTile(
                     icon: Icons.thermostat_outlined,
-                    title: "Цаг агаар",
-                    subtitle: "${temperature.toString()}° C"),
+                    title: "Танд мэдрэгдэх",
+                    subtitle: "${temperatureFeelsLike.toString()}° C"),
                 WeatherTile(
                     icon: Icons.filter_drama_outlined,
                     title: "Гадаа",
@@ -112,12 +135,28 @@ class MainWidget extends StatelessWidget {
   }
 }
 
-class Temps {
-  var temperature = [];
+void _popupScreen(context, temps, weather_icons) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          height: MediaQuery.of(context).size.height * .6,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                for (var i = 1; i < 48; i++)
+                  forecastElementforBottomsheet(i, temps[i], weather_icons[i]),
+              ],
+            ),
+          ),
+        );
+      });
 }
 
-Widget forecastElement(daysFromNow, temp) {
+Widget forecastElement(daysFromNow, temp, weather_icons) {
   var now = new DateTime.now();
+  String asset =
+      'assets/icons/weather_icons/icon' + weather_icons.toString() + '.png';
   var oneHourFromNow = now.add(new Duration(hours: daysFromNow));
   return Padding(
     padding: const EdgeInsets.only(left: 12.0),
@@ -130,6 +169,10 @@ Widget forecastElement(daysFromNow, temp) {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
+            Image.asset(
+              asset,
+              height: 50,
+            ),
             Text(
               temp.toString() + "° C",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
@@ -142,5 +185,48 @@ Widget forecastElement(daysFromNow, temp) {
         ),
       ),
     ),
+  );
+}
+
+Widget forecastElementforBottomsheet(daysFromNow, temp, weather_icons) {
+  var now = new DateTime.now();
+  String asset =
+      'assets/icons/weather_icons/icon' + weather_icons.toString() + '.png';
+  var oneHourFromNow = now.add(new Duration(hours: daysFromNow));
+  return Padding(
+    padding: const EdgeInsets.only(left: 12.0),
+    child: Container(
+        padding: new EdgeInsets.only(left: 25, right: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: (Text(
+                new DateFormat.H().format(oneHourFromNow) + ":00",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 20,
+                ),
+              )),
+            ),
+            Expanded(
+                flex: 1,
+                child: (Text(
+                  temp.toString() + "° C",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                ))),
+            Expanded(
+              flex: 1,
+              child: (Image.asset(
+                asset,
+                height: 80,
+              )),
+            )
+          ],
+        )),
   );
 }
