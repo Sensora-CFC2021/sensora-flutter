@@ -26,12 +26,22 @@ Future<WeatherInfo> fetchWeather() async {
   }
 }
 
+class WeatherData {
+  var temperature = [];
+  var temperatureFeelsLike = [];
+  var wxPhraseLong = [];
+  var relativeHumidity = [];
+  var windSpeed = [];
+  var validTimeLocal = [];
+}
+
 class WeatherInfo {
   var temperature = [];
   var temperatureFeelsLike = [];
   var wxPhraseLong = [];
   var relativeHumidity = [];
   var windSpeed = [];
+  var validTimeLocal = [];
 
   WeatherInfo({
     required this.temperature,
@@ -39,6 +49,7 @@ class WeatherInfo {
     required this.wxPhraseLong,
     required this.relativeHumidity,
     required this.windSpeed,
+    required this.validTimeLocal,
   });
 
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
@@ -48,6 +59,7 @@ class WeatherInfo {
       wxPhraseLong: json['wxPhraseLong'],
       relativeHumidity: json['relativeHumidity'],
       windSpeed: json['windSpeed'],
+      validTimeLocal: json['validTimeLocal'],
     );
   }
 }
@@ -77,18 +89,24 @@ class _WeatherApp extends State<WeatherApp> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return MainWidget(
+                  validTimeLocal: snapshot.data!.validTimeLocal[0],
                   temperature: snapshot.data!.temperature[0],
                   temperatureFeelsLike: snapshot.data!.temperatureFeelsLike[0],
                   wxPhraseLong: snapshot.data!.wxPhraseLong[0],
                   relativeHumidity: snapshot.data!.relativeHumidity[0],
                   windSpeed: snapshot.data!.windSpeed[0],
+                  temps: snapshot.data!.temperature,
                 );
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text("${snapshot.error}"),
                 );
               }
-              return CircularProgressIndicator();
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              );
             }),
         bottomNavigationBar: MyBottomNavBar());
   }
