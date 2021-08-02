@@ -22,7 +22,7 @@ Regarding sustainable consumption and production patterns, we present “Sensora
 
 ## Demo video
 
-//ADD DEMO HERE
+[![Sensora](https://img.youtube.com/vi/7DGMhWlMOho/0.jpg)](https://www.youtube.com/watch?v=7DGMhWlMOho)
 
 ## The architecture
 
