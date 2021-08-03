@@ -1,17 +1,12 @@
 import 'dart:ui';
 import 'dart:convert';
-import 'dart:developer' as developer;
-
-import 'package:animator/animator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'weather_tile.dart';
 
 class MainWidget extends StatelessWidget {
   //final String location;
-  final String validTimeLocal;
   final int temperature;
   final int temperatureFeelsLike;
   final String wxPhraseLong;
@@ -20,9 +15,10 @@ class MainWidget extends StatelessWidget {
   final int iconCode;
   var temps = [];
   var weather_icons = [];
+  var dayOfWeek = [];
+  var validTimeLocal = [];
 
   MainWidget({
-    required this.validTimeLocal,
     required this.temperature,
     required this.temperatureFeelsLike,
     required this.wxPhraseLong,
@@ -31,6 +27,8 @@ class MainWidget extends StatelessWidget {
     required this.temps,
     required this.iconCode,
     required this.weather_icons,
+    required this.dayOfWeek,
+    required this.validTimeLocal,
   });
 
   @override
@@ -38,13 +36,12 @@ class MainWidget extends StatelessWidget {
     String asset =
         'assets/icons/weather_icons/icon' + iconCode.toString() + '.png';
     final dateTime = DateTime.now();
-    final format = DateFormat('yyyy:MM:dd HH:mm');
-    final formatedString = format.format(dateTime);
+    final formatedString = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
     final double metrSec = windSpeed / 3.6;
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height / 3.5,
+          height: MediaQuery.of(context).size.height / 4.5,
           width: MediaQuery.of(context).size.width,
           color: Color(0xfff1f1f1),
           child: Column(
@@ -64,7 +61,8 @@ class MainWidget extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () {
-                              _popupScreen(context, temps, weather_icons);
+                              _popupScreen(context, validTimeLocal, temps,
+                                  weather_icons, dayOfWeek);
                             },
                             child: (Text(
                               "${temperature.toString()}° C",
@@ -100,8 +98,8 @@ class MainWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              for (var i = 1; i < 14; i++)
-                forecastElement(i, temps[i], weather_icons[i]),
+              for (var i = 0; i < 15; i++)
+                forecastElement(validTimeLocal[i], temps[i], weather_icons[i]),
             ],
           ),
         ),
@@ -135,7 +133,7 @@ class MainWidget extends StatelessWidget {
   }
 }
 
-void _popupScreen(context, temps, weather_icons) {
+void _popupScreen(context, validTimeLocal, temps, weather_icons, dayOfWeek) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
@@ -144,8 +142,9 @@ void _popupScreen(context, temps, weather_icons) {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                for (var i = 1; i < 48; i++)
-                  forecastElementforBottomsheet(i, temps[i], weather_icons[i]),
+                for (var i = 0; i < 47; i++)
+                  forecastElementforBottomsheet(validTimeLocal[i], temps[i],
+                      weather_icons[i], dayOfWeek[i]),
               ],
             ),
           ),
@@ -153,11 +152,11 @@ void _popupScreen(context, temps, weather_icons) {
       });
 }
 
-Widget forecastElement(daysFromNow, temp, weather_icons) {
-  var now = new DateTime.now();
+Widget forecastElement(validTimeLocal, temp, weather_icons) {
   String asset =
       'assets/icons/weather_icons/icon' + weather_icons.toString() + '.png';
-  var oneHourFromNow = now.add(new Duration(hours: daysFromNow));
+  var dateTime = DateTime.parse(validTimeLocal).toLocal();
+  var oneHourFromNow = DateFormat("HH:mm").format(dateTime);
   return Padding(
     padding: const EdgeInsets.only(left: 12.0),
     child: Container(
@@ -178,7 +177,7 @@ Widget forecastElement(daysFromNow, temp, weather_icons) {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
             ),
             Text(
-              new DateFormat.H().format(oneHourFromNow) + ":00",
+              oneHourFromNow,
               style: TextStyle(color: Colors.blue, fontSize: 15),
             ),
           ],
@@ -188,29 +187,44 @@ Widget forecastElement(daysFromNow, temp, weather_icons) {
   );
 }
 
-Widget forecastElementforBottomsheet(daysFromNow, temp, weather_icons) {
-  var now = new DateTime.now();
+Widget forecastElementforBottomsheet(
+    validTimeLocal, temp, weather_icons, dayOfWeek) {
   String asset =
       'assets/icons/weather_icons/icon' + weather_icons.toString() + '.png';
-  var oneHourFromNow = now.add(new Duration(hours: daysFromNow));
+  var dateTime = DateTime.parse(validTimeLocal).toLocal();
+  var oneHourFromNow = DateFormat("HH:mm").format(dateTime);
+
   return Padding(
-    padding: const EdgeInsets.only(left: 12.0),
+    padding: const EdgeInsets.only(left: 0),
     child: Container(
-        padding: new EdgeInsets.only(left: 25, right: 10),
+        padding: const EdgeInsets.only(top: 15),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           children: [
             Expanded(
-              flex: 1,
-              child: (Text(
-                new DateFormat.H().format(oneHourFromNow) + ":00",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 20,
-                ),
+              flex: 2,
+              child: (Container(
+                child: (Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      dayOfWeek.toString(),
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      oneHourFromNow,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                )),
               )),
             ),
             Expanded(
@@ -223,7 +237,7 @@ Widget forecastElementforBottomsheet(daysFromNow, temp, weather_icons) {
               flex: 1,
               child: (Image.asset(
                 asset,
-                height: 80,
+                height: 50,
               )),
             )
           ],
