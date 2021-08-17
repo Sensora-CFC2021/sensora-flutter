@@ -1,37 +1,57 @@
-import 'dart:ffi';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'dart:convert' show utf8;
 import 'my_app_bar.dart';
 import 'bottom_nav_bar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  BluetoothCharacteristic value;
+  HomeScreen(this.value, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: MyAppBar(),
-        body: HomeScreenBody(),
+        body: HomeScreenBody(value),
         bottomNavigationBar: MyBottomNavBar());
   }
 }
 
 class HomeScreenBody extends StatefulWidget {
-  const HomeScreenBody({Key? key}) : super(key: key);
+  BluetoothCharacteristic value;
+  HomeScreenBody(this.value);
 
   @override
-  State<HomeScreenBody> createState() => _MyStatefulWidgetState();
+  State<HomeScreenBody> createState() => _MyStatefulWidgetState(value);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<HomeScreenBody>
     with SingleTickerProviderStateMixin {
+  BluetoothCharacteristic value;
+  _MyStatefulWidgetState(this.value);
   late AnimationController animationController;
   late Animation animation;
+  late String temp;
+
+  void asyncMethod() {
+    Timer.periodic(Duration(seconds: 1), (timer) async {
+      await value.write(utf8.encode("temp"));
+      final decoded = await value.read();
+      setState(() {
+        temp = utf8.decode(decoded).toString();
+      });
+    });
+  }
+
   void initState() {
+    super.initState();
+    asyncMethod();
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 7),
@@ -42,104 +62,53 @@ class _MyStatefulWidgetState extends State<HomeScreenBody>
     animationController.addListener(() {
       setState(() {});
     });
-
-    super.initState();
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
+    var tempNumber = "0";
+    if (temp.length > 4) {
+      tempNumber = temp.substring(4);
+    }
+    print(tempNumber);
+    double number = double.parse(tempNumber);
     final animationPercentage = animationController.value * 0.34;
     final textPercentage = animationController.value * 34;
-    final tempPercentage = animationController.value * 25;
+    final tempPercentage = animationController.value * number;
     final humidPercentage = animationController.value * 28;
+
     return Column(
       children: <Widget>[
         new Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 30),
-                height: 175,
-                width: 175,
-                child: LiquidCircularProgressIndicator(
-                  value: animationPercentage,
-                  valueColor: AlwaysStoppedAnimation(Colors.blue),
-                  center: Text(
-                    '${textPercentage.toStringAsFixed(0)}%',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade200),
-                  ),
-                  borderColor: Colors.lightBlue.shade400,
-                  borderWidth: 2.0,
-                  direction: Axis.vertical,
-                  backgroundColor: Colors.white,
+              CircularPercentIndicator(
+                progressColor: Colors.redAccent,
+                percent: number / 100,
+                animation: true,
+                animationDuration: 1600,
+                radius: 130,
+                lineWidth: 9,
+                circularStrokeCap: CircularStrokeCap.round,
+                center: Text(
+                  '$tempPercentage°C',
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade600),
                 ),
-              )
+                footer: Text(
+                  "Temperature",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent),
+                ),
+              ),
             ],
           ),
         ),
-        new Center(
-            child: Text(
-          "Soil Moisture",
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.lightBlue.shade400),
-        )),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CircularPercentIndicator(
-              progressColor: Colors.lightBlue.shade400,
-              percent: 28 / 100,
-              animation: true,
-              animationDuration: 1600,
-              radius: 130,
-              lineWidth: 9,
-              circularStrokeCap: CircularStrokeCap.round,
-              center: Text(
-                '${humidPercentage.toStringAsFixed(0)}%',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600),
-              ),
-              footer: Text(
-                "Humidity",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.lightBlue.shade400),
-              ),
-            ),
-            CircularPercentIndicator(
-              progressColor: Colors.redAccent,
-              percent: 36 / 100,
-              animation: true,
-              animationDuration: 1600,
-              radius: 130,
-              lineWidth: 9,
-              circularStrokeCap: CircularStrokeCap.round,
-              center: Text(
-                '${tempPercentage.toStringAsFixed(0)}°C',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600),
-              ),
-              footer: Text(
-                "Temperature",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent),
-              ),
-            ),
-          ],
-        )
       ],
     );
   }

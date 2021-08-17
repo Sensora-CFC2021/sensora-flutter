@@ -85,7 +85,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: Text("Next"),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                    MaterialPageRoute(builder: (context) => BluetoothConn()));
               },
             ),
           ),
