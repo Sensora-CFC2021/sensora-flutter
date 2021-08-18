@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sensora_test2/weather_screen.dart';
 import 'home_screen.dart';
@@ -36,10 +37,10 @@ class MyBottomNavBar extends StatelessWidget {
           IconButton(
             icon: SvgPicture.asset("assets/icons/home_icon.svg"),
             onPressed: () {
-              Navigator.push(
+              /* Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
+              );*/
             },
           ),
           IconButton(
