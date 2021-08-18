@@ -6,20 +6,16 @@ import 'package:sensora_test2/my_app_bar.dart';
 import 'home_screen.dart';
 
 class BluetoothConn extends StatefulWidget {
-
   BluetoothConn({Key? key}) : super(key: key);
-
 
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
   final List<BluetoothDevice> devicesList = <BluetoothDevice>[];
   final FlutterBlue flutterBlue = FlutterBlue.instance;
 
-  BluetoothConn({
-    Key? key,
-  }) : super(key: key);
   @override
   _BluetoothConnState createState() => _BluetoothConnState();
 }
+
 // hello
 class _BluetoothConnState extends State<BluetoothConn> {
   late String value;
