@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:sensora_test2/bottom_nav_bar.dart';
-import 'package:sensora_test2/my_app_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/main_widget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -70,22 +71,51 @@ class WeatherApp extends StatefulWidget {
 
 class _WeatherApp extends State<WeatherApp> {
   late Future<WeatherInfo> futureWeather;
+  late String currentAddress;
+  late SharedPreferences loginData;
+  List<String>? selectedVegies = [];
 
   @override
   void initState() {
     super.initState();
+    getAddress();
     futureWeather = fetchWeather();
+    initial();
+  }
+
+  void initial() async {
+    loginData = await SharedPreferences.getInstance();
+    setState(() {
+      selectedVegies = loginData.getStringList('selectedList');
+      print(selectedVegies);
+    });
+  }
+
+  void getAddress() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
+      List<Placemark> p =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = p[0];
+      setState(() {
+        currentAddress = "${place.locality}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(),
+        appBar: AppBar(),
         body: FutureBuilder<WeatherInfo>(
             future: futureWeather,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return MainWidget(
+                  location: currentAddress,
                   temperature: snapshot.data!.temperature[0],
                   temperatureFeelsLike: snapshot.data!.temperatureFeelsLike[0],
                   wxPhraseLong: snapshot.data!.wxPhraseLong[0],
@@ -104,7 +134,7 @@ class _WeatherApp extends State<WeatherApp> {
               }
               return Center(
                 child: CircularProgressIndicator(
-                  strokeWidth: 2,
+                  strokeWidth: 2.5,
                 ),
               );
             }),

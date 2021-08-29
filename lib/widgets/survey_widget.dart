@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sensora_test2/home_screen.dart';
+import 'package:sensora_test2/weather_screen.dart';
 import '../bottom_nav_bar.dart';
 import 'custom_checkbox.dart';
 import '../utils/models.dart';
@@ -15,31 +15,27 @@ class SurveyWidget extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'GridView with Search'),
+      home: new SurveyScreen(title: 'GridView with Search'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({required this.title});
+class SurveyScreen extends StatefulWidget {
+  SurveyScreen({required this.title});
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _SurveyScreenState createState() => new _SurveyScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SurveyScreenState extends State<SurveyScreen> {
   TextEditingController editingController = TextEditingController();
-
   List<String> selectedItems = [];
-
   final List<Map<String, dynamic>> _allVegies = allVegies;
-
   List<Map<String, dynamic>> items = [];
-
   late SharedPreferences vegiesData;
-
   late bool newLogin;
+  late bool select;
 
   @override
   void initState() {
@@ -52,8 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void check_Login() async {
     vegiesData = await SharedPreferences.getInstance();
     newLogin = (vegiesData.getBool('login') ?? true);
-    if (newLogin == false) {
-      print("Newtersen bn");
+    if (!newLogin) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WeatherApp()));
+      print("Newtersen bn" + " --> ");
     }
   }
 
@@ -62,29 +60,27 @@ class _MyHomePageState extends State<MyHomePage> {
     if (query.isEmpty) {
       dummySearchList = _allVegies;
     } else {
-      dummySearchList = _allVegies
-          .where((element) =>
-              element["name"].toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      dummySearchList = _allVegies.where((element) {
+        if (element["name"].toLowerCase().contains(query.toLowerCase()))
+          return true;
+        return element["isSelected"];
+      }).toList();
     }
     setState(() {
       items = dummySearchList;
     });
   }
 
-  void onCheckBox(String name, bool isSelected, int vegieId) {
-    print(name +
-        "-- is sel" +
-        isSelected.toString() +
-        ",  " +
-        "veg id-->" +
-        vegieId.toString());
-
-    if (isSelected == true) {
-      selectedItems.add(vegieId.toString());
-    } else {
-      selectedItems.remove(vegieId);
-    }
+  void onCheckBox(int vegieId, bool isSelected) {
+    List<Map<String, dynamic>> selItem =
+        _allVegies.where((element) => element["id"] == vegieId).toList();
+    vegiesData.setBool('selected', isSelected);
+    setState(() {
+      _allVegies[_allVegies.indexOf(selItem[0])]["isSelected"] = isSelected;
+    });
+    isSelected
+        ? selectedItems.add(vegieId.toString())
+        : selectedItems.remove(vegieId);
   }
 
   @override
@@ -126,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 iconPath: items[index]['image'].toString(),
                                 vegieName: items[index]['name'].toString(),
                                 vegieId: items[index]['id'],
+                                isSelect: items[index]['isSelected'],
                                 onCheck: onCheckBox,
                               ),
                               color: Colors.white,
@@ -141,11 +138,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       OutlinedButton(
                           onPressed: () {
                             vegiesData.setStringList(
-                                'selectedList', selectedItems);
+                                'selectedList', selectedItems.toSet().toList());
+                            vegiesData.setBool('login', false);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
+                                    builder: (context) => WeatherApp()));
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(

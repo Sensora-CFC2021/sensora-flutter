@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sensora_test2/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sensora_test2/provider/locale_provider.dart';
 import 'package:sensora_test2/language_screen.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {

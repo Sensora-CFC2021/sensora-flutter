@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:sensora_test2/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-typedef VoidNavigate = void Function(String name, bool isSelected, int vegieId);
+typedef VoidNavigate = void Function(
+  int vegieId,
+  bool isSelected,
+);
 
+// ignore: must_be_immutable
 class CustomCheckBox extends StatefulWidget {
   String iconPath;
   String vegieName;
   int vegieId;
-
+  bool isSelect;
   VoidNavigate onCheck;
 
   CustomCheckBox({
     required this.vegieId,
     required this.iconPath,
     required this.vegieName,
+    required this.isSelect,
     required this.onCheck,
   });
 
@@ -22,14 +28,16 @@ class CustomCheckBox extends StatefulWidget {
 }
 
 class _CustomCheckBoxState extends State<CustomCheckBox> {
-  bool _isSelected = false;
+  late bool _isSelected;
   late String pathIcon;
   late String vegieName;
   late int vegieId;
   List<String> selectedVegies = [];
+  late SharedPreferences vegiesCheck;
 
   @override
   void initState() {
+    _isSelected = widget.isSelect;
     pathIcon = widget.iconPath;
     vegieName = widget.vegieName;
     vegieId = widget.vegieId;
@@ -42,7 +50,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       onTap: () {
         setState(() {
           _isSelected = !_isSelected;
-          widget.onCheck(vegieName, _isSelected, vegieId);
+          widget.onCheck(vegieId, _isSelected);
         });
       },
       child: Container(
@@ -52,9 +60,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                 duration: Duration(milliseconds: 300),
                 curve: Curves.fastLinearToSlowEaseIn,
                 decoration: BoxDecoration(
-                    color: _isSelected
-                        ? Colors.black.withOpacity(0.3)
-                        : Colors.white,
+                    color: _isSelected ? Colors.transparent : Colors.white,
                     borderRadius: BorderRadius.circular(5.0),
                     border: _isSelected
                         ? null

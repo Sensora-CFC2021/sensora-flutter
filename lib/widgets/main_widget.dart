@@ -1,15 +1,14 @@
 import 'dart:ui';
+// ignore: unused_import
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'weather_tile.dart';
 
-import 'package:geolocator/geolocator.dart';
-
-
+// ignore: must_be_immutable
 class MainWidget extends StatelessWidget {
-  //final String location;
+  final String location;
   final int temperature;
   final int temperatureFeelsLike;
   final String wxPhraseLong;
@@ -17,11 +16,13 @@ class MainWidget extends StatelessWidget {
   final int windSpeed;
   final int iconCode;
   var temps = [];
+  // ignore: non_constant_identifier_names
   var weather_icons = [];
   var dayOfWeek = [];
   var validTimeLocal = [];
 
   MainWidget({
+    required this.location,
     required this.temperature,
     required this.temperatureFeelsLike,
     required this.wxPhraseLong,
@@ -29,6 +30,7 @@ class MainWidget extends StatelessWidget {
     required this.windSpeed,
     required this.temps,
     required this.iconCode,
+    // ignore: non_constant_identifier_names
     required this.weather_icons,
     required this.dayOfWeek,
     required this.validTimeLocal,
@@ -51,7 +53,7 @@ class MainWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Улаанбаатар",
+                location,
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
               ),
               Row(
@@ -136,6 +138,7 @@ class MainWidget extends StatelessWidget {
   }
 }
 
+// ignore: non_constant_identifier_names
 void _popupScreen(context, validTimeLocal, temps, weather_icons, dayOfWeek) {
   showModalBottomSheet(
       context: context,
@@ -155,6 +158,7 @@ void _popupScreen(context, validTimeLocal, temps, weather_icons, dayOfWeek) {
       });
 }
 
+// ignore: non_constant_identifier_names
 Widget forecastElement(validTimeLocal, temp, weather_icons) {
   String asset =
       'assets/icons/weather_icons/icon' + weather_icons.toString() + '.png';
@@ -191,7 +195,11 @@ Widget forecastElement(validTimeLocal, temp, weather_icons) {
 }
 
 Widget forecastElementforBottomsheet(
-    validTimeLocal, temp, weather_icons, dayOfWeek) {
+    validTimeLocal,
+    temp,
+    // ignore: non_constant_identifier_names
+    weather_icons,
+    dayOfWeek) {
   String asset =
       'assets/icons/weather_icons/icon' + weather_icons.toString() + '.png';
   var dateTime = DateTime.parse(validTimeLocal).toLocal();
