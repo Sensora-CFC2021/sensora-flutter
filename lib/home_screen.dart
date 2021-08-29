@@ -5,6 +5,7 @@ import 'dart:convert' show utf8;
 import 'my_app_bar.dart';
 import 'bottom_nav_bar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -49,6 +50,9 @@ class _MyStatefulWidgetState extends State<HomeScreenBody>
     });
   }
 
+  late SharedPreferences vegiesData;
+  late List<String>? selectedVegiesId;
+
   void initState() {
     super.initState();
     asyncMethod();
@@ -62,6 +66,16 @@ class _MyStatefulWidgetState extends State<HomeScreenBody>
     animationController.addListener(() {
       setState(() {});
     });
+    initial();
+    super.initState();
+  }
+
+  void initial() async {
+    vegiesData = await SharedPreferences.getInstance();
+    setState(() {
+      selectedVegiesId = vegiesData.getStringList('selectedList');
+    });
+    print(vegiesData);
   }
 
   @override

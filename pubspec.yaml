@@ -25,6 +25,7 @@ dependencies:
   http: ^0.13.3
   geolocator: ^7.3.1
   geocoding: ^2.0.0
+  shared_preferences: ^2.0.6
   percent_indicator: ^3.0.1
   flutter_blue: ^0.8.0
   animator: ^3.1.0
@@ -61,6 +62,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/icons/weather_icons/
+    - assets/images/vegies/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
