@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 Future<WeatherInfo> fetchWeather() async {
   Position position = await Geolocator.getCurrentPosition(
@@ -53,13 +54,17 @@ class WeatherInfo {
 }
 
 class WeatherApp extends StatefulWidget {
+  BluetoothCharacteristic weatherValue;
+  WeatherApp(this.weatherValue);
   @override
   State<StatefulWidget> createState() {
-    return _WeatherApp();
+    return _WeatherApp(weatherValue);
   }
 }
 
 class _WeatherApp extends State<WeatherApp> {
+  BluetoothCharacteristic weatherValue;
+  _WeatherApp(this.weatherValue);
   late Future<WeatherInfo> futureWeather;
 
   @override
@@ -90,6 +95,6 @@ class _WeatherApp extends State<WeatherApp> {
               }
               return CircularProgressIndicator();
             }),
-        bottomNavigationBar: MyBottomNavBar());
+        bottomNavigationBar: MyBottomNavBar(weatherValue));
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:sensora_test2/home_screen.dart';
+import 'package:sensora_test2/weather_screen.dart';
+import 'bluetooth_conn.dart';
 import 'language_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sensora_test2/l10n/l10n.dart';
@@ -11,6 +15,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  late BluetoothCharacteristic value;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(

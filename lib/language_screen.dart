@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:sensora_test2/home_screen.dart';
 import 'package:sensora_test2/provider/locale_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
