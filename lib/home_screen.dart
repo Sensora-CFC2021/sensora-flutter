@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:sensora_test2/user_info.dart';
 import 'dart:convert' show utf8;
 import 'my_app_bar.dart';
 import 'bottom_nav_bar.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: UserInfo(),
         appBar: MyAppBar(),
         body: HomeScreenBody(value),
         bottomNavigationBar: MyBottomNavBar(value));

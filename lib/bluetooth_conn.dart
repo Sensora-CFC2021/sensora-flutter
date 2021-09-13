@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:sensora_test2/my_app_bar.dart';
 import 'home_screen.dart';
+import 'user_info.dart';
 
 class BluetoothConn extends StatefulWidget {
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
@@ -46,6 +47,7 @@ class _BluetoothConnState extends State<BluetoothConn> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        drawer: UserInfo(),
         appBar: MyAppBar(),
         body: _buildView(),
       );

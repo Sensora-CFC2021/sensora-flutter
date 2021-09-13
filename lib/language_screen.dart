@@ -44,54 +44,43 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   SingingCharacter? _character;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        RadioListTile<SingingCharacter>(
-            title: Text(AppLocalizations.of(context)!.english),
-            value: SingingCharacter.english,
-            groupValue: _character,
-            onChanged: (SingingCharacter? value) {
-              setState(() {
-                final provider =
-                    Provider.of<LocaleProvider>(context, listen: false);
-                provider.setLocale(Locale("en"));
-                _character = value;
-              });
-            },
-            secondary: Text(
-              "🇬🇧",
-              style: TextStyle(fontSize: 26),
-            )),
-        RadioListTile<SingingCharacter>(
-            title: Text(AppLocalizations.of(context)!.mongolian),
-            value: SingingCharacter.mongolian,
-            groupValue: _character,
-            onChanged: (SingingCharacter? value) {
-              setState(() {
-                final provider =
-                    Provider.of<LocaleProvider>(context, listen: false);
-                provider.setLocale(Locale("mn"));
-                _character = value;
-              });
-            },
-            secondary: Text(
-              "🇲🇳",
-              style: TextStyle(fontSize: 26),
-            )),
-        Container(
-          margin: EdgeInsets.only(top: 310),
-          child: Align(
-            alignment: Alignment(0.8, 0.6),
-            child: ElevatedButton(
-              child: Text("Next"),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => BluetoothConn()));
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          RadioListTile<SingingCharacter>(
+              title: Text(AppLocalizations.of(context)!.english),
+              value: SingingCharacter.english,
+              groupValue: _character,
+              onChanged: (SingingCharacter? value) {
+                setState(() {
+                  final provider =
+                      Provider.of<LocaleProvider>(context, listen: false);
+                  provider.setLocale(Locale("en"));
+                  _character = value;
+                });
               },
-            ),
-          ),
-        ),
-      ],
+              secondary: Text(
+                "🇬🇧",
+                style: TextStyle(fontSize: 26),
+              )),
+          RadioListTile<SingingCharacter>(
+              title: Text(AppLocalizations.of(context)!.mongolian),
+              value: SingingCharacter.mongolian,
+              groupValue: _character,
+              onChanged: (SingingCharacter? value) {
+                setState(() {
+                  final provider =
+                      Provider.of<LocaleProvider>(context, listen: false);
+                  provider.setLocale(Locale("mn"));
+                  _character = value;
+                });
+              },
+              secondary: Text(
+                "🇲🇳",
+                style: TextStyle(fontSize: 26),
+              )),
+        ],
+      ),
     );
   }
 }

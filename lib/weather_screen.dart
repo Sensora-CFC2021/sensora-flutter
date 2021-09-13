@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensora_test2/bottom_nav_bar.dart';
 import 'package:sensora_test2/my_app_bar.dart';
+import 'user_info.dart';
 import 'widgets/main_widget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -76,6 +77,7 @@ class _WeatherApp extends State<WeatherApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: UserInfo(),
         appBar: MyAppBar(),
         body: FutureBuilder<WeatherInfo>(
             future: futureWeather,
