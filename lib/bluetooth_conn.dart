@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:sensora_test2/bottom_nav_bar.dart';
 import 'package:sensora_test2/my_app_bar.dart';
 import 'home_screen.dart';
 import 'user_info.dart';
@@ -16,25 +18,36 @@ class BluetoothConn extends StatefulWidget {
 
 class _BluetoothConnState extends State<BluetoothConn> {
   late String value;
-
   BluetoothDevice? _connectedDevice;
   late List<BluetoothService> _services;
 
   void initState() {
     super.initState();
-    widget.flutterBlue.connectedDevices
-        .asStream()
-        .listen((List<BluetoothDevice> devices) {
-      for (BluetoothDevice device in devices) {
-        _addDeviceTolist(device);
+    FlutterBlue.instance.state.listen((state) {
+      if (state == BluetoothState.off) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: Text("Turn on bluetooth !"),
+              );
+            });
+      } else {
+        widget.flutterBlue.connectedDevices
+            .asStream()
+            .listen((List<BluetoothDevice> devices) {
+          for (BluetoothDevice device in devices) {
+            _addDeviceTolist(device);
+          }
+        });
+        widget.flutterBlue.scanResults.listen((List<ScanResult> results) {
+          for (ScanResult result in results) {
+            _addDeviceTolist(result.device);
+          }
+        });
+        widget.flutterBlue.startScan();
       }
     });
-    widget.flutterBlue.scanResults.listen((List<ScanResult> results) {
-      for (ScanResult result in results) {
-        _addDeviceTolist(result.device);
-      }
-    });
-    widget.flutterBlue.startScan();
   }
 
   _addDeviceTolist(final BluetoothDevice device) {

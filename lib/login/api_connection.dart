@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sensora_test2/user_info.dart';
 import 'api_model.dart';
 
 final _base = "https://young-dawn-73987.herokuapp.com";
@@ -51,6 +54,7 @@ Future<UserLogin> registerUser(UserSignup userSignup) async {
   if (response.statusCode == 201) {
     final UserLogin user =
         UserLogin(username: userSignup.username, password: userSignup.password);
+
     return user;
   } else {
     print("hello");

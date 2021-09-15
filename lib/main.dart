@@ -15,7 +15,6 @@ import 'login/user_repository.dart';
 import 'login/bloc/authentication_bloc.dart';
 import 'login/splash.dart';
 import '/login/login_page.dart';
-import 'login/home.dart';
 import 'login/create_account_button.dart';
 
 void main() {
@@ -58,16 +57,15 @@ class MyApp extends StatelessWidget {
               builder: (context, state) {
                 if (state is AuthenticationUninitialized) {
                   return SplashPage();
-                }
-                if (state is AuthenticationAuthenticated) {
+                } else if (state is AuthenticationAuthenticated) {
                   return BluetoothConn();
-                }
-                if (state is AuthenticationUnauthenticated) {
+                } else if (state is AuthenticationUnauthenticated) {
                   return LoginPage(userRepository: userRepository);
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
               },
             ),
           );

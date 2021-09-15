@@ -20,7 +20,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         assert(authenticationBloc != null),
         super(LoginInitial());
 
-  @override
   LoginState get initialState => LoginInitial();
 
   @override
@@ -28,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginEvent event,
   ) async* {
     if (event is LoginButtonPressed) {
-      yield LoginInitial();
+      yield LoginLoading();
 
       try {
         final user = await userRepository.authenticate(

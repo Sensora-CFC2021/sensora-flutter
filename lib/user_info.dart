@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sensora_test2/login/api_model.dart';
 import 'package:sensora_test2/login/login_page.dart';
 import 'package:sensora_test2/main.dart';
 import 'login/bloc/authentication_bloc.dart';
@@ -15,7 +16,7 @@ class UserInfo extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("Username"),
+            accountName: Text("username"),
             accountEmail: Text("Email"),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,

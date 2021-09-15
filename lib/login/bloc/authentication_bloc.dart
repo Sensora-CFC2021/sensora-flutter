@@ -18,7 +18,6 @@ class AuthenticationBloc
       : assert(UserRepository != null),
         super(AuthenticationUnauthenticated());
 
-  @override
   AuthenticationState get initialState => AuthenticationUninitialized();
 
   @override
@@ -37,7 +36,9 @@ class AuthenticationBloc
 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
+
       await userRepository.persistToken(user: event.user);
+
       yield AuthenticationAuthenticated();
     }
 
