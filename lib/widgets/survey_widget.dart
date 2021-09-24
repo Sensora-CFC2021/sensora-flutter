@@ -31,15 +31,13 @@ class SurveyScreen extends StatefulWidget {
 class _SurveyScreenState extends State<SurveyScreen> {
   TextEditingController editingController = TextEditingController();
   List<String> selectedItems = [];
-  final List<Map<String, dynamic>> _allVegies = allVegies;
+  List<Map<String, dynamic>> _allVegies = allVegies;
   List<Map<String, dynamic>> items = [];
   late SharedPreferences vegiesData;
   late bool newLogin;
-  late bool select;
 
   @override
   void initState() {
-    items = _allVegies;
     super.initState();
     check_Login();
   }
@@ -51,7 +49,18 @@ class _SurveyScreenState extends State<SurveyScreen> {
     if (!newLogin) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => WeatherApp()));
-      print("Newtersen bn" + " --> ");
+      selectedItems = vegiesData.getStringList('selectedList')!;
+      for (var selItems in selectedItems) {
+        _allVegies.where((element) {
+          if (element['id'].toString() == selItems.toString()) {
+            _allVegies[_allVegies.indexOf(element)]['isSelected'] = true;
+          }
+          return true;
+        }).toList();
+      }
+      setState(() {
+        items = [..._allVegies];
+      });
     }
   }
 
@@ -80,7 +89,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     });
     isSelected
         ? selectedItems.add(vegieId.toString())
-        : selectedItems.remove(vegieId);
+        : selectedItems.remove(vegieId.toString());
   }
 
   @override

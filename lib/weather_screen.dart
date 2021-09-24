@@ -80,15 +80,6 @@ class _WeatherApp extends State<WeatherApp> {
     super.initState();
     getAddress();
     futureWeather = fetchWeather();
-    initial();
-  }
-
-  void initial() async {
-    loginData = await SharedPreferences.getInstance();
-    setState(() {
-      selectedVegies = loginData.getStringList('selectedList');
-      print(selectedVegies);
-    });
   }
 
   void getAddress() async {
