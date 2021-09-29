@@ -11,7 +11,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 
 Future<WeatherInfo> fetchWeather() async {
   Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high);
+      desiredAccuracy: LocationAccuracy.medium);
 
   final requestUrl = "https://api.weather.com/v3/wx/forecast/hourly/2day?geocode=" +
       position.latitude.toString() +
@@ -29,27 +29,36 @@ Future<WeatherInfo> fetchWeather() async {
 }
 
 class WeatherInfo {
+  var validTimeLocal = [];
   var temperature = [];
   var temperatureFeelsLike = [];
   var wxPhraseLong = [];
   var relativeHumidity = [];
   var windSpeed = [];
+  var iconCode = [];
+  var dayOfWeek = [];
 
   WeatherInfo({
+    required this.validTimeLocal,
     required this.temperature,
     required this.temperatureFeelsLike,
     required this.wxPhraseLong,
     required this.relativeHumidity,
     required this.windSpeed,
+    required this.iconCode,
+    required this.dayOfWeek,
   });
 
   factory WeatherInfo.fromJson(Map<String, dynamic> json) {
     return WeatherInfo(
+      validTimeLocal: json['validTimeLocal'],
       temperature: json['temperature'],
       temperatureFeelsLike: json['temperatureFeelsLike'],
       wxPhraseLong: json['wxPhraseLong'],
       relativeHumidity: json['relativeHumidity'],
       windSpeed: json['windSpeed'],
+      iconCode: json['iconCode'],
+      dayOfWeek: json['dayOfWeek'],
     );
   }
 }
@@ -89,13 +98,22 @@ class _WeatherApp extends State<WeatherApp> {
                   wxPhraseLong: snapshot.data!.wxPhraseLong[0],
                   relativeHumidity: snapshot.data!.relativeHumidity[0],
                   windSpeed: snapshot.data!.windSpeed[0],
+                  temps: snapshot.data!.temperature,
+                  iconCode: snapshot.data!.iconCode[0],
+                  weather_icons: snapshot.data!.iconCode,
+                  dayOfWeek: snapshot.data!.dayOfWeek,
+                  validTimeLocal: snapshot.data!.validTimeLocal,
                 );
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text("${snapshot.error}"),
                 );
               }
-              return CircularProgressIndicator();
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              );
             }),
         bottomNavigationBar: MyBottomNavBar(weatherValue));
   }
