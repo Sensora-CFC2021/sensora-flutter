@@ -12,8 +12,6 @@ class BluetoothConn extends StatefulWidget {
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
   final List<BluetoothDevice> devicesList = <BluetoothDevice>[];
   final FlutterBlue flutterBlue = FlutterBlue.instance;
-
-  BluetoothConn({Key? key}) : super(key: key);
   
   @override
   _BluetoothConnState createState() => _BluetoothConnState();
