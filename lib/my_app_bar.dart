@@ -9,6 +9,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final locale = Localizations.localeOf(context);
     final flag = L10n.getFlag(locale.languageCode);
     return AppBar(
+      backgroundColor: Colors.white,
       title: TextField(
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.enter_message,
@@ -37,12 +38,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               width: 24,
             )),
         IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              "assets/icons/tune_icon.svg",
-              height: 24,
-              width: 24,
-            ))
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          icon: Icon(Icons.account_circle),
+          color: Colors.black,
+          iconSize: 42,
+        )
       ],
     );
   }

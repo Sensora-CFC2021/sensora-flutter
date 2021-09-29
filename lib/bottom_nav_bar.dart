@@ -6,12 +6,21 @@ import 'home_screen.dart';
 import '../constant.dart';
 import 'bluetooth_conn.dart';
 
-class MyBottomNavBar extends StatelessWidget {
-  const MyBottomNavBar({
-    Key? key,
-  }) : super(key: key);
+// ignore: must_be_immutable
+class MyBottomNavBar extends StatefulWidget {
+  BluetoothCharacteristic secondValue;
+  MyBottomNavBar(this.secondValue, {Key? key}) : super(key: key);
+
+  _MyBottomNavBarState createState() => _MyBottomNavBarState(secondValue);
+}
+
+class _MyBottomNavBarState extends State<MyBottomNavBar> {
+  BluetoothCharacteristic secondValue;
+  _MyBottomNavBarState(this.secondValue);
+
   @override
   Widget build(BuildContext context) {
+    print(secondValue);
     return Container(
       padding: EdgeInsets.only(
         left: kDefaultPadding * 2,
@@ -28,28 +37,26 @@ class MyBottomNavBar extends StatelessWidget {
           IconButton(
             icon: SvgPicture.asset("assets/icons/shape_icon.svg"),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BluetoothConn()),
-              );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BluetoothConn()));
             },
           ),
           IconButton(
             icon: SvgPicture.asset("assets/icons/home_icon.svg"),
             onPressed: () {
-              /* Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );*/
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeScreen(secondValue)));
             },
           ),
           IconButton(
             icon: SvgPicture.asset("assets/icons/weather_icon.svg"),
             onPressed: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => WeatherApp()),
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WeatherApp(secondValue)));
             },
           ),
         ],
